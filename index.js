@@ -38,7 +38,6 @@ function setcanvas(){
     game.style.height=h+"px";
     game.style.width=w+"px";
 }
-setcanvas();
 const updatescore = (n) => {
     score += 100;
     if (n) { score = 0; updatespeed() }
@@ -273,7 +272,7 @@ window.addEventListener('keydown', (e) => {
 window.onload = () => {
     difficulty(0);
     document.getElementById("highscore").innerText = gethighscore();
-    pause.classList.add('disabled');
+setcanvas();
 }
 //==============difficulty===============
 let difficult = 0;
