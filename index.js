@@ -24,7 +24,21 @@ var prevscore = 0;
 var score = 0;
 var ispaused = false;
 var isgamestarted = false;
-
+let rows=20;
+let columns=20;
+function setcanvas(){
+    let h=window.innerHeight;
+    h=h-40-(h%20);
+    let w=window.innerWidth;
+    w=w-40-(w%20);
+    rows=h/20;
+    columns=w/20;
+    game.style.gridTemplateRows=`repeat(${rows},20px)`;
+    game.style.gridTemplateColumns=`repeat(${columns},20px)`;
+    game.style.height=h+"px";
+    game.style.width=w+"px";
+}
+setcanvas();
 const updatescore = (n) => {
     score += 100;
     if (n) { score = 0; updatespeed() }
@@ -61,8 +75,8 @@ const drawfood = () => {
 
 var generatefood = () => {
     var newfood = {
-        x: Math.ceil(Math.random() * 20),
-        y: Math.ceil(Math.random() * 20),
+        x: Math.ceil(Math.random() * columns),
+        y: Math.ceil(Math.random() * rows),
     }
     food = newfood;
     let part = document.getElementById('food');
@@ -89,17 +103,17 @@ var movesnake = () => {
     let prev = body[0];
     let newx = body[0].x + curdir.x;
     let newy = body[0].y + curdir.y;
-    if (newx > 20) {
+    if (newx > columns) {
         newx = 1;
     }
     else if (newx < 1) {
-        newx = 20;
+        newx = columns;
     }
-    else if (newy > 20) {
+    else if (newy > rows) {
         newy = 1;
     }
     else if (newy < 1) {
-        newy = 20;
+        newy = rows;
     }
     let newob = {
         x: newx,
@@ -177,6 +191,8 @@ var tick = () => {
 //=======================controls==================
 const startgame = () => {
     if (!isgamestarted) {
+        document.querySelector(".containerright").classList.add("fade");
+        document.documentElement.style.setProperty("--blur","0");
         intersected = false;
         isgamestarted = true;
         start.classList.add('disabled');
@@ -190,6 +206,13 @@ const startgame = () => {
     }
 }
 const pausegame = () => {
+    document.querySelector(".containerright").classList.toggle("fade");
+    if(!ispaused){
+        document.documentElement.style.setProperty("--blur","20px");
+    }
+    else{
+        document.documentElement.style.setProperty("--blur","0px");
+    }
     if (isgamestarted) {
         pause.innerText = ispaused ? 'Pause' : 'Resume';
         ispaused = !ispaused;

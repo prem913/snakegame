@@ -4,6 +4,7 @@
     --food: rgb(255, 255, 255);
     --backgroundColor:hsla(276, 91%, 79%, 1);
     --backgroundGrad: radial-gradient(circle, rgb(11, 145, 18) 0%, rgb(26, 95, 7) 100%);
+    --blur:3px;
 }
 *{
     padding: 0;
@@ -29,18 +30,39 @@ b{
     font-weight: 800;
     color: white;
 }
+p{
+    display: inline;
+}
 .hide{
     display: none;
 }
 .wrap{
     display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }
 .containerleft{
-    flex-basis: 60%;
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    width: 100%;
+    z-index: -1;
+    filter: blur(var(--blur));
+    transition: filter 1s ease;
 }
 .containerright{
-    padding: 30px 10px;
-    flex-basis: 40%;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    opacity: 1;
+    transition: opacity 0.4s ease-in-out;
+}
+.fade{
+    opacity: 0;
 }
 .canvas{
     /* position: absolute; */
@@ -54,6 +76,12 @@ b{
     border: 1px solid salmon;
     width: 400px;
     height: 400px;
+}
+.ingamescore{
+    display: absolute;
+    margin: 10px;
+    color: white;
+    
 }
 .part{
     box-sizing: border-box;
