@@ -84,6 +84,9 @@ var generatefood = () => {
     let part = document.getElementById('food');
     part.style.gridColumn = `${food.x}/${food.x + 1}`;
     part.style.gridRow = `${food.y}/${food.y + 1}`;
+    if(isgamestarted){
+        foodsound.play();
+    }
 }
 var addpart = () => {
     let last = body[body.length - 1];
@@ -224,10 +227,14 @@ let curtime = new Date().getTime();
 var tick = () => {
     if(isgamestarted){
     if (!intersected) {
+        movesound.playbackRate=speed;
+        if(!ispaused)
+        movesound.play();
         animationid=window.requestAnimationFrame(tick);
     }
     else {
         restart();
+        gameoversound.play();
         handlegameover();
 
         return;
@@ -251,7 +258,11 @@ pause2.addEventListener('click', pausegame);
 restartbtn.addEventListener('click', () => {
     restart();
 })
+window.onclick=()=>{
+    clicksound.play();
+}
 window.addEventListener('keydown', (e) => {
+    clicksound.play();
     if (!ispaused && isgamestarted) {
         if (e.key === 's') {
             if (curdir.y !== -1) {
@@ -340,3 +351,9 @@ const gethighscore = () => {
     return s;
 }
 gethighscore();
+//Game sounds
+const clicksound=new Audio("./assets/sounds/click.wav");
+const movesound=new Audio("./assets/sounds/move.mp3");
+const gameoversound=new Audio("./assets/sounds/gameover.mp3");
+const foodsound=new Audio("./assets/sounds/food.mp3");
+movesound.volume=0.4;
