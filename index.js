@@ -3,8 +3,10 @@
 let game = document.getElementById('game');
 let start = document.getElementById('start');
 let pause = document.getElementById('pause');
+let pause2=document.getElementById('pause2');
 let displayscore = document.getElementById('score');
 let restartbtn = document.getElementById('Restart');
+let animationid;
 var speed = 1;
 var body = [
     {
@@ -22,6 +24,7 @@ var food = {
 }
 var prevscore = 0;
 var score = 0;
+//game state
 var ispaused = false;
 var isgamestarted = false;
 let rows=20;
@@ -151,31 +154,85 @@ const isintersect = () => {
     }
 
 }
-//=====================update frames=================
-
-let curtime = new Date().getTime();
-var tick = () => {
-    if (!intersected) {
-        window.requestAnimationFrame(tick);
-    }
-    else {
+// game events
+function handlegameover(){
+    handlemenu(false);
+    return;
+}
+function restart(){
         body = [{ x: 1, y: 1 }];
         curdir.x = 1;
         curdir.y = 0;
         prevscore = score;
         updatescore(1);
         isgamestarted = false;
+        pausegame();
         start.classList.remove('disabled');
         pause.classList.add('disabled');
         game.innerHTML = '';
         drawfood();
         generatefood();
         drawhead();
-        restartbtn.classList.add('hide');
-        gameover();
+}
+const handlemenu=(state)=>{
+    let menu=document.querySelector('.menucontainer');
+    let blur=document.documentElement.style;
+    if(state){
+        blur.setProperty("--blur","0");
+        menu.classList.add("fade");
+        setTimeout(() => {
+            menu.style.setProperty("display","none");
+        },400 );
+    }
+    else{
+        blur.setProperty("--blur","5px");
+        menu.style.setProperty("display","flex");
+        menu.classList.remove("fade");
+    }
+    return;
+}
+const startgame = () => {
+    if (!isgamestarted) {
+        pausegame();
+        intersected = false;
+        isgamestarted = true;
+        start.classList.add('disabled');
+        pause.classList.remove('disabled');
+        restartbtn.classList.remove('hide');
+        game.innerHTML = '';
+        drawhead();
+        drawfood();
+        generatefood();
+        tick();
+        handlemenu(true);
+    }
+}
+const pausegame = () => {
+        pause.innerText = ispaused ? 'Pause' : 'Resume';
+    if (isgamestarted) {
+        handlemenu(ispaused)
+        ispaused = !ispaused;
+    }
+    else{
+        ispaused=false;
+        handlemenu(ispaused);
+    }
+}
+//=====================update frames=================
+
+let curtime = new Date().getTime();
+var tick = () => {
+    if(isgamestarted){
+    if (!intersected) {
+        animationid=window.requestAnimationFrame(tick);
+    }
+    else {
+        restart();
+        handlegameover();
 
         return;
     }
+}  
     let newtime = new Date().getTime();
     if ((newtime - curtime > 200 / speed) && !ispaused) {
         movesnake();
@@ -188,38 +245,12 @@ var tick = () => {
     }
 }
 //=======================controls==================
-const startgame = () => {
-    if (!isgamestarted) {
-        document.querySelector(".containerright").classList.add("fade");
-        document.documentElement.style.setProperty("--blur","0");
-        intersected = false;
-        isgamestarted = true;
-        start.classList.add('disabled');
-        pause.classList.remove('disabled');
-        restartbtn.classList.remove('hide');
-        game.innerHTML = '';
-        drawhead();
-        drawfood();
-        generatefood();
-        tick();
-    }
-}
-const pausegame = () => {
-    document.querySelector(".containerright").classList.toggle("fade");
-    if(!ispaused){
-        document.documentElement.style.setProperty("--blur","20px");
-    }
-    else{
-        document.documentElement.style.setProperty("--blur","0px");
-    }
-    if (isgamestarted) {
-        pause.innerText = ispaused ? 'Pause' : 'Resume';
-        ispaused = !ispaused;
-    }
-}
 start.addEventListener('click', startgame);
 pause.addEventListener('click', pausegame);
-let head = document.getElementById('0');
+pause2.addEventListener('click', pausegame);
+restartbtn.addEventListener('click', () => {
+    restart();
+})
 window.addEventListener('keydown', (e) => {
     if (!ispaused && isgamestarted) {
         if (e.key === 's') {
@@ -269,6 +300,7 @@ window.addEventListener('keydown', (e) => {
     }
 });
 //on game start
+let head = document.getElementById('0');
 window.onload = () => {
     difficulty(0);
     document.getElementById("highscore").innerText = gethighscore();
@@ -279,7 +311,6 @@ let difficult = 0;
 const difficulty = (n) => {
     if (!isgamestarted) {
         difficult = n;
-
     }
     updatespeed();
     let diff = document.getElementById('difficulty');
@@ -294,19 +325,6 @@ const difficulty = (n) => {
         diff.innerText = "Hard";
     }
 }
-const gameover = () => {
-    let block = document.createElement('div');
-    block.classList.add('gameover');
-    block.innerHTML = `
-        <h1>Game Over</h1>
-        <b>score: ${prevscore}</b>
-    `;
-    game.appendChild(block);
-}
-restartbtn.addEventListener('click', () => {
-    restartbtn.classList.add('hide');
-    intersected = true;
-})
 //===============cookies====================
 const sethighscore = () => {
     const d = new Date();

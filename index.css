@@ -22,9 +22,6 @@ body{
     background: var(--backgroundColor);
     background: var(--backgroundGrad);
 }
-header{
-    height: 10vh;
-}
 b{
     font-size: 2.3em;
     font-weight: 800;
@@ -42,7 +39,7 @@ p{
     align-items: center;
     flex-direction: column;
 }
-.containerleft{
+.gamecontainer{
     position: fixed;
     left: 0;
     top: 0;
@@ -52,7 +49,7 @@ p{
     filter: blur(var(--blur));
     transition: filter 1s ease;
 }
-.containerright{
+.menucontainer{
     position: fixed;
     left: 0;
     top: 0;
@@ -86,6 +83,8 @@ p{
 .part{
     box-sizing: border-box;
     background: var(--part);
+    background-image: url(./assets/part.png);
+    background-size: 20px;
     opacity: 1;
     box-shadow: 0 0 1px 1px var(--part);
     border-radius: 50%;
@@ -174,4 +173,18 @@ p{
     text-align: center;
     color: white;
     text-shadow: 2px 0px 2px greenyellow;
+}
+.pause2{
+    position: absolute;
+    right: 5%;
+    top: 3px;
+    background-color: var(--head);
+    padding: 4px 20px;
+    border: none;
+    border-radius: 5px;
+    z-index: 2;
+}
+.pause2:hover{
+    background-color: #53850e;
+    box-shadow: 2px 4px 5px #95ff00;
 }
