@@ -158,8 +158,12 @@ const isintersect = () => {
 
 }
 // game events
-function handlegameover(){
+function handlegameover(p){
     handlemenu(false);
+    if(p)
+    document.getElementById('gameover').classList.remove("hide");
+    else
+    document.getElementById('gameover').classList.add("hide");
     return;
 }
 function restart(){
@@ -173,6 +177,7 @@ function restart(){
         start.classList.remove('disabled');
         pause.classList.add('disabled');
         game.innerHTML = '';
+        handlegameover(false);
         drawfood();
         generatefood();
         drawhead();
@@ -207,6 +212,7 @@ const startgame = () => {
         drawfood();
         generatefood();
         tick();
+        handlegameover(false);
         handlemenu(true);
     }
 }
@@ -227,18 +233,17 @@ let curtime = new Date().getTime();
 var tick = () => {
     if(isgamestarted){
     if (!intersected) {
-        movesound.playbackRate=speed;
-        if(!ispaused)
-        movesound.play();
         animationid=window.requestAnimationFrame(tick);
     }
     else {
+        if(!ispaused){
         restart();
         gameoversound.play();
-        handlegameover();
+        handlegameover(true);
 
         return;
     }
+}
 }  
     let newtime = new Date().getTime();
     if ((newtime - curtime > 200 / speed) && !ispaused) {
@@ -353,7 +358,5 @@ const gethighscore = () => {
 gethighscore();
 //Game sounds
 const clicksound=new Audio("./assets/sounds/click.wav");
-const movesound=new Audio("./assets/sounds/move.mp3");
 const gameoversound=new Audio("./assets/sounds/gameover.mp3");
 const foodsound=new Audio("./assets/sounds/food.mp3");
-movesound.volume=0.4;
