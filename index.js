@@ -84,7 +84,7 @@ var generatefood = () => {
     let part = document.getElementById('food');
     part.style.gridColumn = `${food.x}/${food.x + 1}`;
     part.style.gridRow = `${food.y}/${food.y + 1}`;
-    if(isgamestarted){
+    if(isgamestarted && levels.value){
         foodsound.play();
     }
 }
@@ -214,6 +214,8 @@ const startgame = () => {
         tick();
         handlegameover(false);
         handlemenu(true);
+        if(levels.value)
+        bgsound.play();
     }
 }
 const pausegame = () => {
@@ -221,6 +223,12 @@ const pausegame = () => {
     if (isgamestarted) {
         handlemenu(ispaused)
         ispaused = !ispaused;
+        if(ispaused)
+        bgsound.pause();
+        else{
+            if(levels.value)
+        bgsound.play()
+        };
     }
     else{
         ispaused=false;
@@ -238,7 +246,10 @@ var tick = () => {
     else {
         if(!ispaused){
         restart();
+        bgsound.pause();
+        if(levels.value){
         gameoversound.play();
+        }
         handlegameover(true);
 
         return;
@@ -263,11 +274,7 @@ pause2.addEventListener('click', pausegame);
 restartbtn.addEventListener('click', () => {
     restart();
 })
-window.onclick=()=>{
-    clicksound.play();
-}
 window.addEventListener('keydown', (e) => {
-    clicksound.play();
     if (!ispaused && isgamestarted) {
         if (e.key === 's' || e.key=== 'ArrowDown') {
             if (curdir.y !== -1) {
@@ -357,6 +364,20 @@ const gethighscore = () => {
 }
 gethighscore();
 //Game sounds
-const clicksound=new Audio("./assets/sounds/click.wav");
 const gameoversound=new Audio("./assets/sounds/gameover.mp3");
 const foodsound=new Audio("./assets/sounds/food.mp3");
+const bgsound=new Audio("./assets/music/music.mp3");
+let levels=document.getElementById("levels");
+bgsound.volume=0.2;
+levels.addEventListener("input",()=>{
+    if(levels.value<=1){
+        document.getElementsByTagName("img")[0].setAttribute("src","./assets/soundoff.svg");
+    }
+    else{
+        document.getElementsByTagName("img")[0].setAttribute("src","./assets/soundon.svg");
+    }
+    bgsound.volume=levels.value/100;
+    foodsound.volume=levels.value/100;
+    clicksound.volume=levels.value/100;
+    bgsound.volume=levels.value/100;
+})
