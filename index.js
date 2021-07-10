@@ -269,7 +269,7 @@ window.onclick=()=>{
 window.addEventListener('keydown', (e) => {
     clicksound.play();
     if (!ispaused && isgamestarted) {
-        if (e.key === 's') {
+        if (e.key === 's' || e.key=== 'ArrowDown') {
             if (curdir.y !== -1) {
                 curdir = {
                     x: 0,
@@ -278,7 +278,7 @@ window.addEventListener('keydown', (e) => {
                 document.getElementById('0').style.transform = 'rotate(90deg)';
             }
         }
-        else if (e.key === 'w') {
+        else if (e.key === 'w' || e.key=== 'ArrowUp') {
             if (curdir.y !== 1) {
                 curdir = {
                     x: 0,
@@ -287,7 +287,7 @@ window.addEventListener('keydown', (e) => {
                 document.getElementById('0').style.transform = 'rotate(-90deg)';
             }
         }
-        else if (e.key === 'd') {
+        else if (e.key === 'd' || e.key=== 'ArrowRight') {
             if (curdir.x !== -1) {
                 curdir = {
                     x: 1,
@@ -296,7 +296,7 @@ window.addEventListener('keydown', (e) => {
                 document.getElementById('0').style.transform = 'rotate(0deg)';
             }
         }
-        else if (e.key === 'a') {
+        else if (e.key === 'a' || e.key=== 'ArrowLeft') {
             if (curdir.x !== 1) {
                 curdir = {
                     x: -1,
