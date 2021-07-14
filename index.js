@@ -52,7 +52,7 @@ const updatescore = (n) => {
     displayscore.innerText = score;
 }
 const updatespeed = () => {
-    speed = 1 + difficult + (score / 2000);
+    speed = 1 + difficult*2 + (score / 2000)*(difficult+1);
 }
 //===========================one time use==========================
 const drawhead = () => {
@@ -211,11 +211,11 @@ const startgame = () => {
         drawhead();
         drawfood();
         generatefood();
-        tick();
         handlegameover(false);
         handlemenu(true);
         if(levels.value)
         bgsound.play();
+        window.requestAnimationFrame(tick);
     }
 }
 const pausegame = () => {
