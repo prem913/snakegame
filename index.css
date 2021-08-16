@@ -202,7 +202,7 @@ p{
 /* touch controls */
 .touch{
     display: none;
-    height: 40vh;
+    height: 55vh;
     position: relative;
     top: 50vh;
 }

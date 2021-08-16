@@ -3,7 +3,7 @@
 let game = document.getElementById('game');
 let start = document.getElementById('start');
 let pause = document.getElementById('pause');
-let pause2=document.getElementById('pause2');
+let pause2 = document.getElementById('pause2');
 let displayscore = document.getElementById('score');
 let restartbtn = document.getElementById('Restart');
 let animationid;
@@ -27,19 +27,19 @@ var score = 0;
 //game state
 var ispaused = false;
 var isgamestarted = false;
-let rows=20;
-let columns=20;
-function setcanvas(){
-    let h=window.innerHeight;
-    h=h-40-(h%20);
-    let w=window.innerWidth;
-    w=w-40-(w%20);
-    rows=h/20;
-    columns=w/20;
-    game.style.gridTemplateRows=`repeat(${rows},20px)`;
-    game.style.gridTemplateColumns=`repeat(${columns},20px)`;
-    game.style.height=h+"px";
-    game.style.width=w+"px";
+let rows = 20;
+let columns = 20;
+function setcanvas() {
+    let h = window.innerHeight;
+    h = h - 40 - (h % 20);
+    let w = window.innerWidth;
+    w = w - 40 - (w % 20);
+    rows = h / 20;
+    columns = w / 20;
+    game.style.gridTemplateRows = `repeat(${rows},20px)`;
+    game.style.gridTemplateColumns = `repeat(${columns},20px)`;
+    game.style.height = h + "px";
+    game.style.width = w + "px";
 }
 const updatescore = (n) => {
     score += 100;
@@ -52,7 +52,7 @@ const updatescore = (n) => {
     displayscore.innerText = score;
 }
 const updatespeed = () => {
-    speed = 1 + difficult*2 + (score / 2000)*(difficult+1);
+    speed = 1 + difficult * 2 + (score / 2000) * (difficult + 1);
 }
 //===========================one time use==========================
 const drawhead = () => {
@@ -84,7 +84,7 @@ var generatefood = () => {
     let part = document.getElementById('food');
     part.style.gridColumn = `${food.x}/${food.x + 1}`;
     part.style.gridRow = `${food.y}/${food.y + 1}`;
-    if(isgamestarted && levels.value){
+    if (isgamestarted && levels.value) {
         foodsound.play();
     }
 }
@@ -158,47 +158,47 @@ const isintersect = () => {
 
 }
 // game events
-let toucharea=document.getElementById("touch");
-function handlegameover(p){
-    toucharea.style.display="none";
+let toucharea = document.getElementById("touch");
+function handlegameover(p) {
+    toucharea.style.display = "none";
     handlemenu(false);
-    if(p)
-    document.getElementById('gameover').classList.remove("hide");
+    if (p)
+        document.getElementById('gameover').classList.remove("hide");
     else
-    document.getElementById('gameover').classList.add("hide");
+        document.getElementById('gameover').classList.add("hide");
     return;
 }
-function restart(){
-        body = [{ x: 1, y: 1 }];
-        curdir.x = 1;
-        curdir.y = 0;
-        prevscore = score;
-        updatescore(1);
-        isgamestarted = false;
-        pausegame();
-        start.classList.remove('disabled');
-        pause.classList.add('disabled');
-        game.innerHTML = '';
-        handlegameover(false);
-        drawfood();
-        generatefood();
-        drawhead();
+function restart() {
+    body = [{ x: 1, y: 1 }];
+    curdir.x = 1;
+    curdir.y = 0;
+    prevscore = score;
+    updatescore(1);
+    isgamestarted = false;
+    pausegame();
+    start.classList.remove('disabled');
+    pause.classList.add('disabled');
+    game.innerHTML = '';
+    handlegameover(false);
+    drawfood();
+    generatefood();
+    drawhead();
 }
-const handlemenu=(state)=>{
-    let menu=document.querySelector('.menucontainer');
-    let blur=document.documentElement.style;
-    if(state){
-        toucharea.style.display="block";
-        blur.setProperty("--blur","0");
+const handlemenu = (state) => {
+    let menu = document.querySelector('.menucontainer');
+    let blur = document.documentElement.style;
+    if (state) {
+        toucharea.style.display = "block";
+        blur.setProperty("--blur", "0");
         menu.classList.add("fade");
         setTimeout(() => {
-            menu.style.setProperty("display","none");
-        },400 );
+            menu.style.setProperty("display", "none");
+        }, 400);
     }
-    else{
-        toucharea.style.display="none";
-        blur.setProperty("--blur","5px");
-        menu.style.setProperty("display","flex");
+    else {
+        toucharea.style.display = "none";
+        blur.setProperty("--blur", "5px");
+        menu.style.setProperty("display", "flex");
         menu.classList.remove("fade");
     }
     return;
@@ -217,25 +217,25 @@ const startgame = () => {
         generatefood();
         handlegameover(false);
         handlemenu(true);
-        if(levels.value)
-        bgsound.play();
+        if (levels.value)
+            bgsound.play();
         window.requestAnimationFrame(tick);
     }
 }
 const pausegame = () => {
-        pause.innerText = ispaused ? 'Pause' : 'Resume';
+    pause.innerText = ispaused ? 'Pause' : 'Resume';
     if (isgamestarted) {
         handlemenu(ispaused)
         ispaused = !ispaused;
-        if(ispaused)
-        bgsound.pause();
-        else{
-            if(levels.value)
-        bgsound.play()
+        if (ispaused)
+            bgsound.pause();
+        else {
+            if (levels.value)
+                bgsound.play()
         };
     }
-    else{
-        ispaused=false;
+    else {
+        ispaused = false;
         handlemenu(ispaused);
     }
 }
@@ -243,23 +243,23 @@ const pausegame = () => {
 
 let curtime = new Date().getTime();
 var tick = () => {
-    if(isgamestarted){
-    if (!intersected) {
-        animationid=window.requestAnimationFrame(tick);
-    }
-    else {
-        if(!ispaused){
-        restart();
-        bgsound.pause();
-        if(levels.value){
-        gameoversound.play();
+    if (isgamestarted) {
+        if (!intersected) {
+            animationid = window.requestAnimationFrame(tick);
         }
-        handlegameover(true);
+        else {
+            if (!ispaused) {
+                restart();
+                bgsound.pause();
+                if (levels.value) {
+                    gameoversound.play();
+                }
+                handlegameover(true);
 
-        return;
+                return;
+            }
+        }
     }
-}
-}  
     let newtime = new Date().getTime();
     if ((newtime - curtime > 200 / speed) && !ispaused) {
         movesnake();
@@ -280,7 +280,7 @@ restartbtn.addEventListener('click', () => {
 })
 window.addEventListener('keydown', (e) => {
     if (!ispaused && isgamestarted) {
-        if (e.key === 's' || e.key=== 'ArrowDown') {
+        if (e.key === 's' || e.key === 'ArrowDown') {
             if (curdir.y !== -1) {
                 curdir = {
                     x: 0,
@@ -289,7 +289,7 @@ window.addEventListener('keydown', (e) => {
                 document.getElementById('0').style.transform = 'rotate(90deg)';
             }
         }
-        else if (e.key === 'w' || e.key=== 'ArrowUp') {
+        else if (e.key === 'w' || e.key === 'ArrowUp') {
             if (curdir.y !== 1) {
                 curdir = {
                     x: 0,
@@ -298,7 +298,7 @@ window.addEventListener('keydown', (e) => {
                 document.getElementById('0').style.transform = 'rotate(-90deg)';
             }
         }
-        else if (e.key === 'd' || e.key=== 'ArrowRight') {
+        else if (e.key === 'd' || e.key === 'ArrowRight') {
             if (curdir.x !== -1) {
                 curdir = {
                     x: 1,
@@ -307,7 +307,7 @@ window.addEventListener('keydown', (e) => {
                 document.getElementById('0').style.transform = 'rotate(0deg)';
             }
         }
-        else if (e.key === 'a' || e.key=== 'ArrowLeft') {
+        else if (e.key === 'a' || e.key === 'ArrowLeft') {
             if (curdir.x !== 1) {
                 curdir = {
                     x: -1,
@@ -331,7 +331,7 @@ let head = document.getElementById('0');
 window.onload = () => {
     difficulty(0);
     document.getElementById("highscore").innerText = gethighscore();
-setcanvas();
+    setcanvas();
 }
 //==============difficulty===============
 let difficult = 0;
@@ -368,20 +368,20 @@ const gethighscore = () => {
 }
 gethighscore();
 //Game sounds
-const gameoversound=new Audio("./assets/sounds/gameover.mp3");
-const foodsound=new Audio("./assets/sounds/food.mp3");
-const bgsound=new Audio("./assets/music/music.mp3");
-let levels=document.getElementById("levels");
-bgsound.volume=0.2;
-levels.addEventListener("input",()=>{
-    if(levels.value<=1){
-        document.getElementsByTagName("img")[0].setAttribute("src","./assets/soundoff.svg");
+const gameoversound = new Audio("./assets/sounds/gameover.mp3");
+const foodsound = new Audio("./assets/sounds/food.mp3");
+const bgsound = new Audio("./assets/music/music.mp3");
+let levels = document.getElementById("levels");
+bgsound.volume = 0.2;
+levels.addEventListener("input", () => {
+    if (levels.value <= 1) {
+        document.getElementsByTagName("img")[0].setAttribute("src", "./assets/soundoff.svg");
     }
-    else{
-        document.getElementsByTagName("img")[0].setAttribute("src","./assets/soundon.svg");
+    else {
+        document.getElementsByTagName("img")[0].setAttribute("src", "./assets/soundon.svg");
     }
-    bgsound.volume=levels.value/100;
-    foodsound.volume=levels.value/100;
-    clicksound.volume=levels.value/100;
-    bgsound.volume=levels.value/100;
+    bgsound.volume = levels.value / 100;
+    foodsound.volume = levels.value / 100;
+    clicksound.volume = levels.value / 100;
+    bgsound.volume = levels.value / 100;
 })
