@@ -158,7 +158,9 @@ const isintersect = () => {
 
 }
 // game events
+let toucharea=document.getElementById("touch");
 function handlegameover(p){
+    toucharea.style.display="none";
     handlemenu(false);
     if(p)
     document.getElementById('gameover').classList.remove("hide");
@@ -186,6 +188,7 @@ const handlemenu=(state)=>{
     let menu=document.querySelector('.menucontainer');
     let blur=document.documentElement.style;
     if(state){
+        toucharea.style.display="block";
         blur.setProperty("--blur","0");
         menu.classList.add("fade");
         setTimeout(() => {
@@ -193,6 +196,7 @@ const handlemenu=(state)=>{
         },400 );
     }
     else{
+        toucharea.style.display="none";
         blur.setProperty("--blur","5px");
         menu.style.setProperty("display","flex");
         menu.classList.remove("fade");
